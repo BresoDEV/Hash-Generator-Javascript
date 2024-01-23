@@ -2,104 +2,203 @@
 <html lang="pt-br">
 
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <style>
-	html {
-		border: 0;
-		margin: 0;
-		padding: 0;
-		background-color: #333;
-	}
+    html {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
 
-	input {
-		background-color: #333;
-		color: aliceblue;
-		padding: 10px;
-		border-radius: 5px;
-		width: 80%;
-	}
+    }
 
-	.ct {
-		background-color: #666;
-		color: aliceblue;
-		padding: 10px;
-		border-radius: 5px;
-		margin-left: 20%;
-		width: 60%;
-		align-items: center;
-		text-align: center;
-		margin-top: 100px;
-	}
+    * {
+        font-size: medium;
+        color: yellow;
+    }
 
-	h1 {
-		color: yellow;
-		font-size: small;
-	}
+    input {
+        background-color: #333;
+        padding: 1%;
+        border-radius: 5px;
+        width: 98%;
+    }
+
+    textarea{
+        background-color: #333;
+        padding: 1%;
+        border-radius: 5px;
+        width: 98%;
+        color: aliceblue;
+    }
+
+    .ct {
+        background-color: #666;
+        color: aliceblue;
+        padding: 10px;
+        border-radius: 5px;
+        margin-left: 10%;
+        width: 80%;
+        margin-top: 25px;
+    }
+
+    .checks {
+        margin-left: 0;
+        width: 10%;
+    }
 </style>
 
 <body>
 
-	<div class="ct">
-		<h1>Hash Generator</h1>
-		<input type="text" name="" id="im" oninput="bla()">
-		<h1 id="aaa"></h1>
-	</div>
+    <div class="ct">
+        <h1>Hash Generator</h1>
+        <input type="text" name="" id="im">
+        <h1 id="aaa"></h1>
+    </div>
+
+
+    <div class="ct">
+        <h1>Hash Generator List</h1>
+        <textarea name="" id="lista" cols="30" rows="10"></textarea>
+        <br>
+        <br>
+
+        <input class="checks" type="radio" name="Radio" id="hex">Hex<br>
+        <input class="checks" type="radio" name="Radio" id="int32">int32<br>
+        <input class="checks" type="radio" name="Radio" id="uint32">uint32<br>
+
+        <br>
+        <br>
+
+        <textarea name="" id="listaHash" style="width: 46%;" cols="30" rows="10"></textarea>
+        <textarea name="" id="listaDword" style="width: 46%;" cols="30" rows="10"></textarea>
+        <button id="copiarHEX" style="width: 48%;color:aliceblue;background-color: #333;">Copiar</button>
+        <button id="copiarDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Copiar</button>
+    </div>
+
 
 </body>
 <script>
 
+    document.getElementById('im').addEventListener('input', () => {
+        var im = document.getElementById('im').value.toLowerCase();
+        if (im.length > 0)
+            document.getElementById('aaa').innerHTML = 'hex: ' + joaat(im) + '<br>int32: ' + joaat2(im) + '<br>uint32: ' + joaat3(im);
+        else
+            document.getElementById('aaa').innerHTML = 'Type value to hash';
+    });
 
-	function bla() {
-		var im = document.getElementById('im').value;
-		document.getElementById('aaa').innerHTML = 'hex: ' + joaat(im) + '<br>int32: ' + joaat2(im) + '<br>uint32: ' + joaat3(im);
+    document.getElementById('lista').addEventListener('input',()=>{
+        processarLista();
+    });
+    document.getElementById('hex').addEventListener('change',()=>{
+        processarLista();
+    });
+    document.getElementById('int32').addEventListener('change',()=>{
+        processarLista();
+    });
+    document.getElementById('uint32').addEventListener('change',()=>{
+        processarLista();
+    });
 
-	}
 
 
-	function joaat(s) {
-		let h = 0;
-		for (let i = 0; i < s.length; i++) {
-			h += s.charCodeAt(i);
-			h += (h << 10);
-			h ^= (h >> 6);
-		}
-		h += (h << 3);
-		h ^= (h >> 11);
-		h += (h << 15);
-		h = h >>> 0
-		return '0x' + h.toString(16).toUpperCase();
-	}
+    document.getElementById('copiarHEX').addEventListener('click',()=>{
+        document.getElementById('listaHash').select();
+        document.execCommand('copy');
+        document.getElementById('listaHash').setSelectionRange(0,0);
 
-	function joaat2(s) {
-		let h = 0;
-		for (let i = 0; i < s.length; i++) {
-			h += s.charCodeAt(i);
-			h += (h << 10);
-			h ^= (h >> 6);
-		}
-		h += (h << 3);
-		h ^= (h >> 11);
-		h += (h << 15);
-		//h = h >>> 0
-		return h;
-	}
-	function joaat3(s) {
-		let h = 0;
-		for (let i = 0; i < s.length; i++) {
-			h += s.charCodeAt(i);
-			h += (h << 10);
-			h ^= (h >> 6);
-		}
-		h += (h << 3);
-		h ^= (h >> 11);
-		h += (h << 15);
-		h = h >>> 0
-		return h;
-	}
+    });
+
+    document.getElementById('copiarDWORD').addEventListener('click',()=>{
+        document.getElementById('listaDword').select();
+        document.execCommand('copy');
+        document.getElementById('listaDword').setSelectionRange(0,0);
+
+    });
+
+    //http://quotes.toscrape.com/
+   
+    
+    function processarLista()
+    {
+        if (document.getElementById('hex').checked || document.getElementById('int32').checked || document.getElementById('uint32').checked) {
+            var im = document.getElementById('lista').value.toLowerCase();
+            if (im.length > 0) {
+                var linhas = im.split('\n');
+                var f = 'enum MyHashs{\n';
+                var f2 = '';
+                linhas.forEach(element => {
+                    if (element !== '') {
+                        if (document.getElementById('hex').checked) {
+                            f += '' + element + '=' + joaat(element) + ',\n'
+                            f2 += 'DWORD ' + element + ' = ' + joaat(element) + ';\n'
+                        }
+
+                        if (document.getElementById('int32').checked) {
+                            f += '' + element + '=' + joaat2(element) + ',\n'
+                            f2 += 'DWORD ' + element + ' = ' + joaat2(element) + ';\n'
+                        }
+
+                        if (document.getElementById('uint32').checked) {
+                            f += '' + element + '=' + joaat3(element) + ',\n'
+                            f2 += 'DWORD ' + element + ' = ' + joaat3(element) + ';\n'
+                        }
+
+                    }
+                });
+                f += '};';
+                document.getElementById('listaHash').innerHTML = f;
+                document.getElementById('listaDword').innerHTML = f2;
+            }
+        }
+    }
+
+
+    function joaat(s) {
+        let h = 0;
+        for (let i = 0; i < s.length; i++) {
+            h += s.charCodeAt(i);
+            h += (h << 10);
+            h ^= (h >> 6);
+        }
+        h += (h << 3);
+        h ^= (h >> 11);
+        h += (h << 15);
+        h = h >>> 0
+        return '0x' + h.toString(16).toUpperCase();
+    }
+
+    function joaat2(s) {
+        let h = 0;
+        for (let i = 0; i < s.length; i++) {
+            h += s.charCodeAt(i);
+            h += (h << 10);
+            h ^= (h >> 6);
+        }
+        h += (h << 3);
+        h ^= (h >> 11);
+        h += (h << 15);
+        //h = h >>> 0
+        return h;
+    }
+    function joaat3(s) {
+        let h = 0;
+        for (let i = 0; i < s.length; i++) {
+            h += s.charCodeAt(i);
+            h += (h << 10);
+            h ^= (h >> 6);
+        }
+        h += (h << 3);
+        h ^= (h >> 11);
+        h += (h << 15);
+        h = h >>> 0
+        return h;
+    }
 
 
 

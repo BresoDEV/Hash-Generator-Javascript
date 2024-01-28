@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  html {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+
+  }
+
+  * {
+    font-size: medium;
+    color: yellow;
+  }
+
+  input {
+    background-color: #333;
+    padding: 1%;
+    border-radius: 5px;
+    width: 98%;
+  }
+
+  textarea {
+    background-color: #333;
+    padding: 1%;
+    border-radius: 5px;
+    width: 98%;
+    color: aliceblue;
+  }
+
+  .ct {
+    background-color: #666;
+    color: aliceblue;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 10%;
+    width: 80%;
+    margin-top: 25px;
+  }
+
+  .checks {
+    margin-left: 0;
+    width: 10%;
+  }
+  button{
+    margin-top: 5px;
+    padding: 5px;
+  }
+</style>
+
+<body>
+
+  <div class="ct">
+    <h1>Hash Bruteforce Breaker</h1>
+    <input placeholder="Hash Value" type="text" name="" id="im" value="0xE224D6F0"><br>
+    <input placeholder="Begining of string, if you know" type="text" name="" id="inicio" value="prop_camp_fire_01"><br>
+    <input type="number" name="" value="17" id="numletras" min="0" max="37" placeholder="Num chars - text you know up here(if you dont know, set it to 0)">
+    <button id="break" style="width: 100%;color:aliceblue;background-color: #333;">Break Hash <font style="color:lime">
+        (slow, but generate unique hashs)</font></button><br>
+    <button id="break2" style="width: 100%;color:aliceblue;background-color: #333;">Break Hash <font style="color:lime">
+        v2 (fast, but repeat hashs)</font></button><br>
+
+    <button id="break3" style="width: 100%;color:aliceblue;background-color: #333;">Break Hash Boom</button><br>
+    <h2 id="num"></h2>
+    <h2 id="resultado"></h2>
+  </div>
+
+
+
+
+
+</body>
+<script>
+
+  //0xB779A091
+
+  var contadorSegundos = 0;
+  var contadorMinutos = 0;
+  var contadorHoras = 0;
+
+  const numX = document.getElementById('num');
+  const resultado = document.getElementById('resultado');
+  const palavra = document.getElementById('im'); 
+  var index = 0;
+  var hashgerados = [];
+  var encontrada = '';
+  var encontrou = false;
+
+  document.getElementById('break').addEventListener('click', () => {
+    const hash = palavra.value.toLowerCase();
+    console.log(hash);
+    var decripttado = '';
+    decripttado = joaat(gerar());
+
+
+    contadorSegundos = 0;
+    vcontadorMinutos = 0;
+    vcontadorHoras = 0;
+
+
+    //-------------------------------
+    var loop = setInterval(() => {
+
+      for (var i = 0; i < 1000; i++) {
+        if (encontrou === false) {
+          if (hashgerados.includes(decripttado)) {
+            decripttado = joaat(gerar());
+            //console.log(hashgerados.length);
+          }
+          else {
+            hashgerados.push(decripttado);
+            if (hash.toUpperCase() === decripttado) {
+              resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value+encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
+              encontrou = true;
+              clearInterval(loop);
+              break;
+            }
+            else {
+              index++;
+              numX.innerHTML = 'Executing ' + index + ' hashs comparations..<br>Time: ' + getTempo();
+            }
+          }
+        }
+
+      }
+    }, 1000);
+
+
+    setInterval(() => {
+      /*
+      var contadorSegundos = 0;
+  var contadorMinutos = 0;
+  var contadorHoras = 0;
+  */
+      if (contadorSegundos == 59) {
+        contadorSegundos = 0;
+        if (contadorMinutos == 59) {
+          contadorMinutos = 0;
+          if (contadorHoras == 59) {
+            contadorSegundos = 0;
+            vcontadorMinutos = 0;
+            vcontadorHoras = 0;
+          }
+          else {
+            contadorHoras
+          }
+        }
+        else {
+          contadorMinutos++;
+        }
+      }
+      else {
+        contadorSegundos++;
+      }
+
+    }, 1000);
+
+
+
+  });
+
+
+
+
+  document.getElementById('break2').addEventListener('click', () => {
+    const hash = palavra.value.toLowerCase();
+    console.log(hash);
+    var decripttado = '';
+    decripttado = joaat(gerar());
+
+
+    contadorSegundos = 0;
+    vcontadorMinutos = 0;
+    vcontadorHoras = 0;
+
+
+    //-------------------------------
+    var loop = setInterval(() => {
+
+      for (var i = 0; i < 100000; i++) {
+        var str = gerar();
+        decripttado = joaat(str);
+        if (hash.toUpperCase() === decripttado) {
+          resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value+encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
+          numX.innerHTML = 'Checked ' + index + ' hashs to find';
+          encontrou = true;
+          clearInterval(loop);
+          break;
+        }
+        else {
+          index++;
+          numX.innerHTML = 'Executing ' + index + ' hashs comparations..<br>Time: ' + getTempo();
+        }
+
+
+
+
+      }
+    }, 1000);
+
+    setInterval(() => {
+      /*
+      var contadorSegundos = 0;
+  var contadorMinutos = 0;
+  var contadorHoras = 0;
+  */
+      if (contadorSegundos == 59) {
+        contadorSegundos = 0;
+        if (contadorMinutos == 59) {
+          contadorMinutos = 0;
+          if (contadorHoras == 59) {
+            contadorSegundos = 0;
+            vcontadorMinutos = 0;
+            vcontadorHoras = 0;
+          }
+          else {
+            contadorHoras
+          }
+        }
+        else {
+          contadorMinutos++;
+        }
+      }
+      else {
+        contadorSegundos++;
+      }
+
+    }, 1000);
+
+
+  });
+  function getTempo() {
+    var s;
+    var m;
+    var h;
+    if (contadorSegundos >= 10)
+      s = contadorSegundos;
+    else
+      s = '0' + contadorSegundos;
+
+    if (contadorMinutos >= 10)
+      m = contadorMinutos;
+    else
+      m = '0' + contadorMinutos;
+
+    if (contadorHoras >= 10)
+      h = contadorHoras;
+    else
+      h = '0' + contadorHoras;
+
+    return h + ':' + m + ':' + s;
+  }
+
+
+  var indexGeracaoTamanho = 0;
+
+  function gerar(t = 4) {
+    //numletras
+    //const c = 'abcdefghijklmnu1234567890_';
+    const c = 'abcdefghijklmnopqrstuvwxyz1234567890_';
+
+    let s = '';
+    if(document.getElementById('numletras').value === 0)
+    {
+      for (let i = 0; i < Math.floor(Math.random() * c.length); i++) {
+      s += c.charAt(Math.floor(Math.random() * c.length));
+    }
+    }
+    else
+    {
+      for (let i = 0; i < document.getElementById('numletras').value; i++) {
+      s += c.charAt(Math.floor(Math.random() * c.length));
+    }
+    }
+    encontrada = s;
+    return document.getElementById('inicio').value+s;
+  }
+
+  //http://quotes.toscrape.com/
+
+
+
+
+
+  function joaat(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) {
+      h += s.charCodeAt(i);
+      h += (h << 10);
+      h ^= (h >> 6);
+    }
+    h += (h << 3);
+    h ^= (h >> 11);
+    h += (h << 15);
+    h = h >>> 0
+    return '0X' + h.toString(16).toUpperCase();
+  }
+
+  function joaat2(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) {
+      h += s.charCodeAt(i);
+      h += (h << 10);
+      h ^= (h >> 6);
+    }
+    h += (h << 3);
+    h ^= (h >> 11);
+    h += (h << 15);
+    //h = h >>> 0
+    return h;
+  }
+  function joaat3(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) {
+      h += s.charCodeAt(i);
+      h += (h << 10);
+      h ^= (h >> 6);
+    }
+    h += (h << 3);
+    h ^= (h >> 11);
+    h += (h << 15);
+    h = h >>> 0
+    return h;
+  }
+
+
+
+  document.getElementById('break3').addEventListener('click', () => {
+    const hash = palavra.value.toLowerCase();
+    console.log(hash);
+    var decripttado = '';
+    decripttado = joaat(gerar());
+
+
+    contadorSegundos = 0;
+    vcontadorMinutos = 0;
+    vcontadorHoras = 0;
+
+    numX.innerHTML = 'Please wait...maybe your browser freezes for some seconds, its normal, just wait...';
+
+
+    //-------------------------------
+    setTimeout(() => {
+      for (var i = 0; i < 9999999; i++) {
+        var str = gerar();
+        decripttado = joaat(str);
+        if (hash.toUpperCase() === decripttado) {
+          resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value+encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
+          numX.innerHTML = 'Checked ' + index + ' hashs to find';
+          encontrou = true;
+          break;
+        }
+        else {
+          index++;
+          numX.innerHTML = 'Executing ' + index + ' hashs comparations..<br>Time: ' + getTempo();
+        }
+      }
+
+      if (encontrou == false) {
+      numX.innerHTML = 'Hash not finded';
+
+    }
+    }, 3000);
+
+    
+
+
+
+
+
+
+    setInterval(() => {
+      /*
+      var contadorSegundos = 0;
+  var contadorMinutos = 0;
+  var contadorHoras = 0;
+  */
+      if (contadorSegundos == 59) {
+        contadorSegundos = 0;
+        if (contadorMinutos == 59) {
+          contadorMinutos = 0;
+          if (contadorHoras == 59) {
+            contadorSegundos = 0;
+            vcontadorMinutos = 0;
+            vcontadorHoras = 0;
+          }
+          else {
+            contadorHoras
+          }
+        }
+        else {
+          contadorMinutos++;
+        }
+      }
+      else {
+        contadorSegundos++;
+      }
+
+    }, 1000);
+
+
+  });
+
+</script>
+
+</html>

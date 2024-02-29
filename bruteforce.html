@@ -50,7 +50,8 @@
     margin-left: 0;
     width: 10%;
   }
-  button{
+
+  button {
     margin-top: 5px;
     padding: 5px;
   }
@@ -60,9 +61,10 @@
 
   <div class="ct">
     <h1>Hash Bruteforce Breaker</h1>
-    <input placeholder="Hash Value" type="text" name="" id="im" value="0xE224D6F0"><br>
-    <input placeholder="Begining of string, if you know" type="text" name="" id="inicio" value="prop_camp_fire_01"><br>
-    <input type="number" name="" value="17" id="numletras" min="0" max="37" placeholder="Num chars - text you know up here(if you dont know, set it to 0)">
+    <input placeholder="Hash Value. ex: 0xED131F5B" type="text" name="" id="im" value=""><br>
+    <input placeholder="Begining of string, if you know" type="text" name="" id="inicio" value=""><br>
+    <input type="number" name="" value="" id="numletras" min="0" max="37"
+      placeholder="Num chars - text you know up here(if you dont know, set it to 0)">
     <button id="break" style="width: 100%;color:aliceblue;background-color: #333;">Break Hash <font style="color:lime">
         (slow, but generate unique hashs)</font></button><br>
     <button id="break2" style="width: 100%;color:aliceblue;background-color: #333;">Break Hash <font style="color:lime">
@@ -88,7 +90,7 @@
 
   const numX = document.getElementById('num');
   const resultado = document.getElementById('resultado');
-  const palavra = document.getElementById('im'); 
+  const palavra = document.getElementById('im');
   var index = 0;
   var hashgerados = [];
   var encontrada = '';
@@ -118,7 +120,7 @@
           else {
             hashgerados.push(decripttado);
             if (hash.toUpperCase() === decripttado) {
-              resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value+encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
+              resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value + encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
               encontrou = true;
               clearInterval(loop);
               break;
@@ -189,7 +191,7 @@
         var str = gerar();
         decripttado = joaat(str);
         if (hash.toUpperCase() === decripttado) {
-          resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value+encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
+          resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value + encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
           numX.innerHTML = 'Checked ' + index + ' hashs to find';
           encontrou = true;
           clearInterval(loop);
@@ -268,20 +270,18 @@
     const c = 'abcdefghijklmnopqrstuvwxyz1234567890_';
 
     let s = '';
-    if(document.getElementById('numletras').value === 0)
-    {
+    if (document.getElementById('numletras').value === 0) {
       for (let i = 0; i < Math.floor(Math.random() * c.length); i++) {
-      s += c.charAt(Math.floor(Math.random() * c.length));
+        s += c.charAt(Math.floor(Math.random() * c.length));
+      }
     }
-    }
-    else
-    {
+    else {
       for (let i = 0; i < document.getElementById('numletras').value; i++) {
-      s += c.charAt(Math.floor(Math.random() * c.length));
-    }
+        s += c.charAt(Math.floor(Math.random() * c.length));
+      }
     }
     encontrada = s;
-    return document.getElementById('inicio').value+s;
+    return document.getElementById('inicio').value + s;
   }
 
   //http://quotes.toscrape.com/
@@ -353,7 +353,7 @@
         var str = gerar();
         decripttado = joaat(str);
         if (hash.toUpperCase() === decripttado) {
-          resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value+encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
+          resultado.innerHTML = 'String founded:<br>Hash string: <font style="color:lime">' + document.getElementById('inicio').value + encontrada + '</font><br>Hash searched: <font style="color:lime">' + hash + '</font><br>Time spended: <font style="color:lime">' + getTempo() + '</font>';
           numX.innerHTML = 'Checked ' + index + ' hashs to find';
           encontrou = true;
           break;
@@ -365,12 +365,12 @@
       }
 
       if (encontrou == false) {
-      numX.innerHTML = 'Hash not finded';
+        numX.innerHTML = 'Hash not finded';
 
-    }
+      }
     }, 3000);
 
-    
+
 
 
 

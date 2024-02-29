@@ -28,7 +28,7 @@
         width: 98%;
     }
 
-    textarea{
+    textarea {
         background-color: #333;
         padding: 1%;
         border-radius: 5px;
@@ -60,6 +60,12 @@
         <h1 id="aaa"></h1>
     </div>
 
+    <div class="ct">
+      <center>
+        <a href="bruteforce.html"><button style="cursor:pointer;width: 48%;color:aliceblue;background-color: #333;"  >Try Bruteforce Hash Reverse</button></a>
+  
+      </center>
+    </div>
 
     <div class="ct">
         <h1>Hash Generator List</h1>
@@ -76,8 +82,10 @@
 
         <textarea name="" id="listaHash" style="width: 46%;" cols="30" rows="10"></textarea>
         <textarea name="" id="listaDword" style="width: 46%;" cols="30" rows="10"></textarea>
-        <button id="copiarHEX" style="width: 48%;color:aliceblue;background-color: #333;">Copiar</button>
-        <button id="copiarDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Copiar</button>
+        <button id="copiarHEX" style="width: 48%;color:aliceblue;background-color: #333;"  >Copy</button>
+        <button id="copiarDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Copy</button>
+        <button id="downloadHEX" style="width: 48%;color:aliceblue;background-color: #333;"  >Download C++ file</button>
+        <button id="downloadDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Download C++ file</button>
     </div>
 
 
@@ -92,40 +100,39 @@
             document.getElementById('aaa').innerHTML = 'Type value to hash';
     });
 
-    document.getElementById('lista').addEventListener('input',()=>{
+    document.getElementById('lista').addEventListener('input', () => {
         processarLista();
     });
-    document.getElementById('hex').addEventListener('change',()=>{
+    document.getElementById('hex').addEventListener('change', () => {
         processarLista();
     });
-    document.getElementById('int32').addEventListener('change',()=>{
+    document.getElementById('int32').addEventListener('change', () => {
         processarLista();
     });
-    document.getElementById('uint32').addEventListener('change',()=>{
+    document.getElementById('uint32').addEventListener('change', () => {
         processarLista();
     });
 
 
 
-    document.getElementById('copiarHEX').addEventListener('click',()=>{
+    document.getElementById('copiarHEX').addEventListener('click', () => {
         document.getElementById('listaHash').select();
         document.execCommand('copy');
-        document.getElementById('listaHash').setSelectionRange(0,0);
+        document.getElementById('listaHash').setSelectionRange(0, 0);
 
     });
 
-    document.getElementById('copiarDWORD').addEventListener('click',()=>{
+    document.getElementById('copiarDWORD').addEventListener('click', () => {
         document.getElementById('listaDword').select();
         document.execCommand('copy');
-        document.getElementById('listaDword').setSelectionRange(0,0);
+        document.getElementById('listaDword').setSelectionRange(0, 0);
 
     });
 
     //http://quotes.toscrape.com/
-   
-    
-    function processarLista()
-    {
+
+
+    function processarLista() {
         if (document.getElementById('hex').checked || document.getElementById('int32').checked || document.getElementById('uint32').checked) {
             var im = document.getElementById('lista').value.toLowerCase();
             if (im.length > 0) {
@@ -157,6 +164,35 @@
             }
         }
     }
+
+
+
+    document.getElementById('downloadHEX').addEventListener('click', () => {
+       
+        var t = document.getElementById('listaHash').value;
+
+        var l = document.createElement('a');
+        var du = 'data:text/plain;charset=utf-8,' + encodeURIComponent(t);
+        l.setAttribute('href', du);
+        l.setAttribute('download', 'enums.h');
+
+        l.click();
+    });
+
+    document.getElementById('downloadDWORD').addEventListener('click', () => {
+        //document.getElementById('listaDword').select();
+        //document.execCommand('copy');
+        //document.getElementById('listaDword').setSelectionRange(0,0);
+
+        var t = document.getElementById('listaDword').value;
+
+        var l = document.createElement('a');
+        var du = 'data:text/plain;charset=utf-8,' + encodeURIComponent(t);
+        l.setAttribute('href', du);
+        l.setAttribute('download', 'enums.h');
+
+        l.click();
+    });
 
 
     function joaat(s) {

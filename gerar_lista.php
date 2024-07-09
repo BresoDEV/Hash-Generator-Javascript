@@ -22,6 +22,8 @@
   * {
     font-size: medium;
     color: yellow;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
   }
 
   input {

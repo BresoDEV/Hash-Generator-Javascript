@@ -63,10 +63,12 @@
     </div>
 
     <div class="ct">
-      <center>
-        <a href="bruteforce.html"><button style="cursor:pointer;width: 48%;color:aliceblue;background-color: #333;"  >Try Bruteforce Hash Reverse</button></a>
-  
-      </center>
+        <center>
+            <a href="bruteforce.html"><button
+                    style="cursor:pointer;width: 48%;color:aliceblue;background-color: #333;">Try Bruteforce Hash
+                    Reverse</button></a>
+
+        </center>
     </div>
 
     <div class="ct">
@@ -76,17 +78,16 @@
         <br>
 
         <input class="checks" type="radio" name="Radio" id="hex">Hex<br>
-        <input class="checks" type="radio" name="Radio" id="int32">int32<br>
-        <input class="checks" type="radio" name="Radio" id="uint32">uint32<br>
+        <input class="checks" type="radio" name="Radio" id="int32">int32<br> 
 
         <br>
         <br>
 
         <textarea name="" id="listaHash" style="width: 46%;" cols="30" rows="10"></textarea>
         <textarea name="" id="listaDword" style="width: 46%;" cols="30" rows="10"></textarea>
-        <button id="copiarHEX" style="width: 48%;color:aliceblue;background-color: #333;"  >Copy</button>
+        <button id="copiarHEX" style="width: 48%;color:aliceblue;background-color: #333;">Copy</button>
         <button id="copiarDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Copy</button>
-        <button id="downloadHEX" style="width: 48%;color:aliceblue;background-color: #333;"  >Download C++ file</button>
+        <button id="downloadHEX" style="width: 48%;color:aliceblue;background-color: #333;">Download C++ file</button>
         <button id="downloadDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Download C++ file</button>
     </div>
 
@@ -97,7 +98,7 @@
     document.getElementById('im').addEventListener('input', () => {
         var im = document.getElementById('im').value.toLowerCase();
         if (im.length > 0)
-            document.getElementById('aaa').innerHTML = 'hex: ' + joaat(im) + '<br>int32: ' + joaat2(im) + '<br>uint32: ' + joaat3(im);
+            document.getElementById('aaa').innerHTML = 'hex: ' + joaat(im) + '<br>int32: ' + joaat2(im)  ;
         else
             document.getElementById('aaa').innerHTML = 'Type value to hash';
     });
@@ -111,9 +112,7 @@
     document.getElementById('int32').addEventListener('change', () => {
         processarLista();
     });
-    document.getElementById('uint32').addEventListener('change', () => {
-        processarLista();
-    });
+     
 
 
 
@@ -135,7 +134,7 @@
 
 
     function processarLista() {
-        if (document.getElementById('hex').checked || document.getElementById('int32').checked || document.getElementById('uint32').checked) {
+        if (document.getElementById('hex').checked || document.getElementById('int32').checked ) {
             var im = document.getElementById('lista').value.toLowerCase();
             if (im.length > 0) {
                 var linhas = im.split('\n');
@@ -153,10 +152,7 @@
                             f2 += 'DWORD ' + element + ' = ' + joaat2(element) + ';\n'
                         }
 
-                        if (document.getElementById('uint32').checked) {
-                            f += '' + element + '=' + joaat3(element) + ',\n'
-                            f2 += 'DWORD ' + element + ' = ' + joaat3(element) + ';\n'
-                        }
+                         
 
                     }
                 });
@@ -170,7 +166,7 @@
 
 
     document.getElementById('downloadHEX').addEventListener('click', () => {
-       
+
         var t = document.getElementById('listaHash').value;
 
         var l = document.createElement('a');
@@ -197,46 +193,84 @@
     });
 
 
-    function joaat(s) {
-        let h = 0;
-        for (let i = 0; i < s.length; i++) {
-            h += s.charCodeAt(i);
-            h += (h << 10);
-            h ^= (h >> 6);
+    function joaat(text) {
+        if (!text) {
+            return 0;
         }
-        h += (h << 3);
-        h ^= (h >> 11);
-        h += (h << 15);
-        h = h >>> 0
-        return '0x' + h.toString(16).toUpperCase();
+        var value = 0, temp;
+        var index = 0;
+        var quoted = false;
+        if (text.charCodeAt(index) === 34) {
+            quoted = true;
+            index = (index + 1) | 0;
+        }
+        text = text.toLowerCase();
+        for (; index < text.length; index = (index + 1) | 0) {
+            var v = text.charCodeAt(index);
+            if (quoted && (v === 34)) {
+                break;
+            }
+            if (v === 92) {
+                v = 47;
+            }
+            temp = v;
+            temp = (temp + value) >>> 0;
+            value = (temp << 10) >>> 0;
+            temp = (temp + value) >>> 0;
+            value = temp >>> 6;
+            value = (value ^ temp) >>> 0;
+        }
+        temp = (value << 3) >>> 0;
+        temp = (value + temp) >>> 0;
+        var temp2 = temp >>> 11;
+        temp = (temp2 ^ temp) >>> 0;
+        temp2 = (temp << 15) >>> 0;
+        value = (temp2 + temp) >>> 0;
+        if (value < 2) {
+            value = (value + 2) >>> 0;
+        }
+        return '0x' + value.toString(16).toUpperCase();
     }
 
-    function joaat2(s) {
-        let h = 0;
-        for (let i = 0; i < s.length; i++) {
-            h += s.charCodeAt(i);
-            h += (h << 10);
-            h ^= (h >> 6);
+    function joaat2(text) {
+        if (!text) {
+            return 0;
         }
-        h += (h << 3);
-        h ^= (h >> 11);
-        h += (h << 15);
-        //h = h >>> 0
-        return h;
-    }
-    function joaat3(s) {
-        let h = 0;
-        for (let i = 0; i < s.length; i++) {
-            h += s.charCodeAt(i);
-            h += (h << 10);
-            h ^= (h >> 6);
+        var value = 0, temp;
+        var index = 0;
+        var quoted = false;
+        if (text.charCodeAt(index) === 34) {
+            quoted = true;
+            index = (index + 1) | 0;
         }
-        h += (h << 3);
-        h ^= (h >> 11);
-        h += (h << 15);
-        h = h >>> 0
-        return h;
+        text = text.toLowerCase();
+        for (; index < text.length; index = (index + 1) | 0) {
+            var v = text.charCodeAt(index);
+            if (quoted && (v === 34)) {
+                break;
+            }
+            if (v === 92) {
+                v = 47;
+            }
+            temp = v;
+            temp = (temp + value) >>> 0;
+            value = (temp << 10) >>> 0;
+            temp = (temp + value) >>> 0;
+            value = temp >>> 6;
+            value = (value ^ temp) >>> 0;
+        }
+        temp = (value << 3) >>> 0;
+        temp = (value + temp) >>> 0;
+        var temp2 = temp >>> 11;
+        temp = (temp2 ^ temp) >>> 0;
+        temp2 = (temp << 15) >>> 0;
+        value = (temp2 + temp) >>> 0;
+        if (value < 2) {
+            value = (value + 2) >>> 0;
+        }
+        return value;
     }
+ 
 
 
 

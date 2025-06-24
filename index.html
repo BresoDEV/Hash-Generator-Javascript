@@ -12,45 +12,61 @@
         border: 0;
         margin: 0;
         padding: 0;
-        background-color: #333;
+        background-color: rgb(0, 0, 0);
 
     }
 
     * {
         font-size: medium;
-        color: yellow;
+        color: rgb(158, 70, 241);
         -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
     }
-
-    input {
-        background-color: #333;
-        padding: 1%;
-        border-radius: 5px;
-        width: 98%;
+    h1{
+        color: coral;
     }
 
-    textarea {
-        background-color: #333;
+    input {
+        background-color: rgb(0, 0, 0);
         padding: 1%;
         border-radius: 5px;
+        border: 1px solid rgb(158, 70, 241);
         width: 98%;
         color: aliceblue;
     }
 
+    textarea {
+        background-color: rgb(0, 0, 0);
+        padding: 1%;
+        border-radius: 5px;
+        width: 98%;
+        color: aliceblue;
+        border: 1px solid rgb(255, 255, 255);
+    }
+
     .ct {
-        background-color: #666;
+        background-color: rgb(0, 0, 0);
         color: aliceblue;
         padding: 10px;
         border-radius: 5px;
         margin-left: 10%;
         width: 80%;
         margin-top: 25px;
+        border: 1px solid rgb(158, 70, 241);
     }
 
     .checks {
         margin-left: 0;
         width: 10%;
+    }
+    button{
+        width: 98%;
+        color:aliceblue;
+        border: 1px solid rgb(158, 70, 241);
+        background-color: #333;
+
+        margin: 1%;
+        border-radius: 5px;
     }
 </style>
 
@@ -62,33 +78,44 @@
         <h1 id="aaa"></h1>
     </div>
 
-    <div class="ct">
-        <center>
-            <a href="bruteforce.html"><button
-                    style="cursor:pointer;width: 48%;color:aliceblue;background-color: #333;">Try Bruteforce Hash
-                    Reverse</button></a>
-
-        </center>
-    </div>
+   
 
     <div class="ct">
-        <h1>Hash Generator List</h1>
+        <h1>Hash Generator List (line by line)</h1>
         <textarea name="" id="lista" cols="30" rows="10"></textarea>
         <br>
         <br>
 
-        <input class="checks" type="radio" name="Radio" id="hex">Hex<br>
-        <input class="checks" type="radio" name="Radio" id="int32">int32<br> 
+        
+        <br> 
 
-        <br>
-        <br>
+        <center>
+            <table style="width:100% ;">
+                 
+                <tr>
+                    <td><textarea name="" id="listaHash"  cols="30" rows="10"></textarea></td>
+                    <td><textarea name="" id="listaDword"  cols="30" rows="10"></textarea></textarea></td>
+                     
+                </tr>
+                
+    
+                <tr>
+                    <td><button id="copiarHEX" >Copy</button></td>
+                    <td><button id="copiarDWORD" >Copy</button></td> 
+                </tr>
+                <tr>
+                    <td><button id="downloadHEX" >Download C++ file</button></td>
+                    <td><button id="downloadDWORD" >Download C++ file</button></td> 
+                </tr>
+            </table>
+        </center>
 
-        <textarea name="" id="listaHash" style="width: 46%;" cols="30" rows="10"></textarea>
-        <textarea name="" id="listaDword" style="width: 46%;" cols="30" rows="10"></textarea>
-        <button id="copiarHEX" style="width: 48%;color:aliceblue;background-color: #333;">Copy</button>
-        <button id="copiarDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Copy</button>
-        <button id="downloadHEX" style="width: 48%;color:aliceblue;background-color: #333;">Download C++ file</button>
-        <button id="downloadDWORD" style="width: 48%;color:aliceblue;background-color: #333;">Download C++ file</button>
+        
+        
+        
+        
+        
+        
     </div>
 
 
@@ -106,12 +133,7 @@
     document.getElementById('lista').addEventListener('input', () => {
         processarLista();
     });
-    document.getElementById('hex').addEventListener('change', () => {
-        processarLista();
-    });
-    document.getElementById('int32').addEventListener('change', () => {
-        processarLista();
-    });
+     
      
 
 
@@ -134,33 +156,37 @@
 
 
     function processarLista() {
-        if (document.getElementById('hex').checked || document.getElementById('int32').checked ) {
-            var im = document.getElementById('lista').value.toLowerCase();
+        var im = document.getElementById('lista').value.toLowerCase();
             if (im.length > 0) {
                 var linhas = im.split('\n');
                 var f = 'enum MyHashs{\n';
                 var f2 = '';
                 linhas.forEach(element => {
                     if (element !== '') {
-                        if (document.getElementById('hex').checked) {
+                        
+                        //if (document.getElementById('hex').checked) {
                             f += '' + element + '=' + joaat(element) + ',\n'
                             f2 += 'DWORD ' + element + ' = ' + joaat(element) + ';\n'
-                        }
-
-                        if (document.getElementById('int32').checked) {
-                            f += '' + element + '=' + joaat2(element) + ',\n'
-                            f2 += 'DWORD ' + element + ' = ' + joaat2(element) + ';\n'
-                        }
-
-                         
-
+                        //}
                     }
                 });
                 f += '};';
                 document.getElementById('listaHash').innerHTML = f;
+
+                var f = 'enum MyHashs{\n';
+                var f2 = '';
+                linhas.forEach(element => {
+                    if (element !== '') {
+                         //if (document.getElementById('int32').checked) {
+                           f += '' + element + '=' + joaat2(element) + ',\n'
+                            f2 += 'DWORD ' + element + ' = ' + joaat2(element) + ';\n'
+                       // }
+                    }
+                });
+                f += '};';
+                
                 document.getElementById('listaDword').innerHTML = f2;
             }
-        }
     }
 
 
